@@ -1,0 +1,365 @@
+// 61911650 高野遥斗
+
+#include "buffer.h"
+
+struct status_table {
+    unsigned int stat;
+    char stat_char;
+}
+stat_tbl[] = {
+    {STAT_OLD, 'O'},
+    {STAT_WAITED, 'W'},
+    {STAT_KRDWR, 'K'},
+    {STAT_DWR, 'D'},
+    {STAT_VALID, 'V'},
+    {STAT_LOCKED, 'L'},
+    {0, 0}
+};
+int buf_number = 0;
+struct buf_header hash_head[NHASH];
+struct buf_header free_head;
+
+/* cmd */
+
+void init_cmd() {
+    int init_buf[12] = {28, 4, 64, 17, 5, 97, 98, 50, 10, 3, 35, 99};
+    int init_free[6] = {10, 97, 28, 4, 5, 3};
+
+    remove_all();
+    for (int i=0; i<12; i++) {
+        int blkno = init_buf[i];
+        struct buf_header *p = buf_create(blkno);
+        set_status(p, STAT_LOCKED | STAT_VALID, SET);
+        insert(&hash_head[hash(blkno)], p , TYPE_HASH, LIST_TAIL);
+        
+    }
+    for (int i=0; i<6; i++) {
+        struct buf_header *p = search_hash(init_free[i]);
+        if (p) {
+            insert(&free_head, p, TYPE_FREE, LIST_HEAD);
+        }
+    }
+}
+
+void buf_cmd() {
+    struct buf_header *p;
+
+    for(int i=0;i<NHASH; i++) {
+        for (p = hash_head[i].hash_fp; p != &hash_head[i]; p = p->hash_fp) {
+            print_buf(p);
+            printf("\n");
+        }
+    }
+}
+void buf1_cmd(int bufno) {
+    struct buf_header *p;
+    p = search_buf(bufno);
+    if (p) {
+        print_buf(p);
+        printf("\n");
+    } else {
+        // error
+    }
+}
+
+void hash_cmd() {
+    for(int i=0;i<NHASH; i++) {
+        hash1_cmd(i);
+    }
+}
+
+void hash1_cmd(int n) {
+    struct buf_header *p;
+
+    printf("%d:", n);
+    for (p = hash_head[n].hash_fp; p != &hash_head[n]; p = p->hash_fp) {
+        printf(" ");
+        print_buf(p);
+    }
+    printf("\n");
+}
+
+void free_cmd() {
+    struct buf_header *p;
+
+    for (p = free_head.free_fp; p != &free_head; p = p->free_fp) {
+        printf(" ");
+        print_buf(p);
+    }
+    if (free_head.free_fp != &free_head) {
+        printf("\n");
+    }
+}
+
+void set_cmd(int blkno, char stat_char) {
+    do_set(blkno, stat_char, SET);
+}
+
+void reset_cmd(int blkno, char stat_char) {
+    do_set(blkno, stat_char, RESET);
+}
+
+void quit_cmd() {
+    remove_all();
+    exit(0);
+}
+
+void getblk_cmd(int blkno) {
+    getblk(blkno);
+}
+
+void brelse_cmd(int blkno) {
+    brelse(search_hash(blkno));
+}
+
+/* utility */
+
+struct buf_header *buf_create(int blkno) {
+    struct buf_header *buf;
+
+    buf = malloc(sizeof(struct buf_header));
+    buf->blkno = blkno;
+    buf->bufno = buf_number++;
+
+    return buf;
+}
+
+void auto_init() {
+    for(int i=0;i<NHASH; i++) {
+        hash_head[i].hash_fp = &hash_head[i];
+        hash_head[i].hash_bp = &hash_head[i];
+    }
+    free_head.free_fp = &free_head;
+    free_head.free_bp = &free_head;
+}
+
+int hash(int n) {
+    return n % NHASH;
+}
+
+void do_set(int blkno, char stat_char, int set) {
+    struct buf_header *bp;
+    struct status_table *sp;
+
+    bp = search_hash(blkno);
+    if (bp) {
+        for (sp = stat_tbl; sp->stat; sp++){
+            if (stat_char == sp->stat_char) {
+                set_status(bp, sp->stat, set);
+                return;
+            }
+        }
+    }
+}
+
+void set_status(struct buf_header *p, unsigned int stat, enum set_type set) {
+    if (set == SET) {
+        p->stat |= stat;
+    } else if (set == RESET) {
+        p->stat &= ~stat;
+    }
+}
+
+void insert(struct buf_header *h, struct buf_header *p, enum list_type type, enum list_where where) {
+    // type 0 => hash, 1 => free
+    // where 0 => head, 1 => free
+    if (type == TYPE_HASH) {
+        if (where == LIST_HEAD) {
+            p->hash_bp = h;
+            if (h->hash_fp) {
+                p->hash_fp = h->hash_fp;
+                h->hash_fp->hash_bp = p;
+            } else {
+                p->hash_fp = h;
+                h->hash_bp = p;
+            }
+            h->hash_fp = p;
+        } else if (where == LIST_TAIL) {
+            p->hash_fp = h;
+            if (h->hash_bp) {
+                p->hash_bp = h->hash_bp;
+                h->hash_bp->hash_fp = p;
+            } else {
+                p->hash_bp = h;
+                h->hash_fp = p;
+            }
+            h->hash_bp = p;
+        }
+    } else if (type == TYPE_FREE) {
+        set_status(p, STAT_LOCKED, RESET);
+        if (where == LIST_HEAD) {
+            p->free_bp = h;
+            if (h->free_fp) {
+                p->free_fp = h->free_fp;
+                h->free_fp->free_bp = p;
+            } else {
+                p->free_fp = h;
+                h->free_bp = p;
+            }
+            h->free_fp = p;
+        } else if (where == LIST_TAIL) {
+            p->free_fp = h;
+            if (h->free_bp) {
+                p->free_bp = h->free_bp;
+                h->free_bp->free_fp = p;
+            } else {
+                p->free_bp = h;
+                h->free_fp = p;
+            }
+            h->free_bp = p;
+        }
+    }
+}
+
+void print_status(unsigned int stat) {
+    struct status_table *p;
+    for (p = stat_tbl; p->stat; p++){
+        if (stat & p->stat) {
+            printf("%c", p->stat_char);
+        } else {
+            printf("-");
+        }
+    }
+}
+
+void print_buf(struct buf_header *p) {
+    printf("[%2d:%3d ", p->bufno, p->blkno);
+    print_status(p->stat);
+    printf("]");   
+}
+
+struct buf_header *search_buf(int bufno) {
+    struct buf_header *p;
+
+    for(int i=0;i<NHASH; i++) {
+        for (p = hash_head[i].hash_fp; p != &hash_head[i]; p = p->hash_fp) {
+            if (p->bufno == bufno) {
+                return p;
+            }
+        }
+    }
+    return NULL;
+}
+
+struct buf_header *search_hash(int blkno) {
+    int h;
+    struct buf_header *p;
+    h = hash(blkno);
+    for (p = hash_head[h].hash_fp; p != &hash_head[h]; p = p->hash_fp) {
+        if (p->blkno == blkno){
+            return p;
+        }
+    }
+    return NULL;
+}
+
+void remove_all() {
+    struct buf_header *p;
+
+    for(int i=0;i<NHASH; i++) {
+        p = hash_head[i].hash_fp;
+        while (p != NULL && p != &hash_head[i]) {
+            struct buf_header *next_p = p->hash_fp;
+            remove_buf(p);
+            p = next_p;
+        }
+    }
+}
+
+void remove_buf(struct buf_header *p) {
+    remove_from_hash(p);
+    remove_from_free(p);
+    buf_number--;
+    free(p);
+}
+
+void remove_from_hash(struct buf_header *p) {
+    set_status(p, STAT_VALID, RESET);
+    p->hash_bp->hash_fp = p->hash_fp;
+    p->hash_fp->hash_bp = p->hash_bp;
+    p->hash_fp = NULL;
+    p->hash_bp = NULL;
+}
+
+void remove_from_free(struct buf_header *p) {
+    set_status(p, STAT_LOCKED, SET);
+    if (p->free_bp) {
+        p->free_bp->free_fp = p->free_fp;
+        p->free_fp->free_bp = p->free_bp;
+        p->free_fp = NULL;
+        p->free_bp = NULL;
+    }
+}
+
+struct buf_header *getblk(int blkno) {
+    struct buf_header *p;
+    while (1) {
+        if ((p = search_hash(blkno))) {
+            if (p->stat & STAT_LOCKED) {
+                /* シナリオ 5 */
+                // sleep()
+                set_status(p, STAT_WAITED, SET);
+                printf("Process goes to sleep");
+                return NULL; //continue;
+            }
+            /* シナリオ 1 */
+            remove_from_free(p);
+            return p;
+        } else {
+            p = free_head.free_fp;
+            if (p == &free_head) {
+                /* シナリオ 4 */
+                //sleep()
+                set_status(p, STAT_WAITED, SET);
+                printf("Process goes to sleep");
+                return NULL; // continue;
+            }
+            remove_from_free(p);
+            if (p->stat & STAT_DWR){
+                /* シナリオ 3 */
+                set_status(p, STAT_DWR, RESET);
+                set_status(p, STAT_KRDWR, SET);
+                set_status(p, STAT_OLD, SET);
+
+                //asynchronous write buffer to disk;
+                continue;
+            }
+            
+            /* シナリオ 2 */
+            remove_from_hash(p);
+            p->blkno = blkno;
+            insert(&hash_head[hash(blkno)], p, TYPE_HASH, LIST_TAIL);
+            set_status(p, STAT_KRDWR, SET);
+            // データ読み込み
+            set_status(p, STAT_KRDWR, RESET);
+            set_status(p, STAT_VALID, SET);
+            return p;
+        }
+    }
+}
+void brelse(struct buf_header *p){
+    if (p->stat & STAT_WAITED) {
+        // シナリオ 5
+        // wakeup();
+        set_status(p, STAT_WAITED, RESET);
+        printf("Wakeup processes waiting for buffer of blkno %d\n", p->blkno);
+    }
+    if (free_head.stat & STAT_WAITED) {
+        // シナリオ 4
+        // wakeup();
+        set_status(&free_head, STAT_WAITED, RESET);
+        printf("Wakeup processes waiting for any buffer\n");
+    }
+
+    // raise_cpu_level();
+    // raise processor execution level to block interrupts;
+
+    if ((p->stat & STAT_VALID) && ~(p->stat & STAT_OLD)) {
+        insert(&free_head, p, TYPE_FREE, LIST_TAIL);
+    } else {
+        // シナリオ 3
+        insert(&free_head, p, TYPE_FREE, LIST_HEAD);
+        set_status(p, STAT_OLD, RESET);
+    }
+    set_status(p, STAT_LOCKED, RESET);
+}
