@@ -14,8 +14,9 @@ int cost[NNODE][NNODE] = {
 void printMinimumCost(int u, int d[NNODE],int p[NNODE]);
 void do_dijkstra(int u);
 int main() {
+    int u;
 
-    for(int u=0;u<NNODE;u++){
+    for(u=0;u<NNODE;u++){
         do_dijkstra(u);
     }
     return 0;

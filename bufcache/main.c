@@ -69,7 +69,9 @@ void help_proc(int argc, char *argv[]){
 }
 
 void free_argv(int argc, char *argv[]) {
-    for (int i=0; i<argc; i++) {
+    int i;
+
+    for (i=0; i<argc; i++) {
         free(argv[i]);
     }
 }
@@ -83,8 +85,10 @@ void init_proc(int argc, char *argv[]){
 }
 
 void buf_proc(int argc, char *argv[]){
+    int i;
+
     if (argc >= 2) {
-        for (int i=0;i<argc;i++){
+        for (i=0;i<argc;i++){
 
         }
         buf1_cmd(atoi(argv[1]));

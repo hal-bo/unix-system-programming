@@ -22,18 +22,19 @@ struct buf_header free_head;
 /* cmd */
 
 void init_cmd() {
+    int i;
     int init_buf[12] = {28, 4, 64, 17, 5, 97, 98, 50, 10, 3, 35, 99};
     int init_free[6] = {10, 97, 28, 4, 5, 3};
 
     remove_all();
-    for (int i=0; i<12; i++) {
+    for (i=0; i<12; i++) {
         int blkno = init_buf[i];
         struct buf_header *p = buf_create(blkno);
         set_status(p, STAT_LOCKED | STAT_VALID, SET);
         insert(&hash_head[hash(blkno)], p , TYPE_HASH, LIST_TAIL);
         
     }
-    for (int i=0; i<6; i++) {
+    for (i=0; i<6; i++) {
         struct buf_header *p = search_hash(init_free[i]);
         if (p) {
             insert(&free_head, p, TYPE_FREE, LIST_HEAD);
@@ -42,9 +43,10 @@ void init_cmd() {
 }
 
 void buf_cmd() {
+    int i;
     struct buf_header *p;
 
-    for(int i=0;i<NHASH; i++) {
+    for(i=0;i<NHASH; i++) {
         for (p = hash_head[i].hash_fp; p != &hash_head[i]; p = p->hash_fp) {
             print_buf(p);
             printf("\n");
@@ -53,6 +55,7 @@ void buf_cmd() {
 }
 void buf1_cmd(int bufno) {
     struct buf_header *p;
+
     p = search_buf(bufno);
     if (p) {
         print_buf(p);
@@ -63,7 +66,9 @@ void buf1_cmd(int bufno) {
 }
 
 void hash_cmd() {
-    for(int i=0;i<NHASH; i++) {
+    int i;
+
+    for(i=0;i<NHASH; i++) {
         hash1_cmd(i);
     }
 }
@@ -125,7 +130,9 @@ struct buf_header *buf_create(int blkno) {
 }
 
 void auto_init() {
-    for(int i=0;i<NHASH; i++) {
+    int i;
+
+    for(i=0;i<NHASH; i++) {
         hash_head[i].hash_fp = &hash_head[i];
         hash_head[i].hash_bp = &hash_head[i];
     }
@@ -161,8 +168,6 @@ void set_status(struct buf_header *p, unsigned int stat, enum set_type set) {
 }
 
 void insert(struct buf_header *h, struct buf_header *p, enum list_type type, enum list_where where) {
-    // type 0 => hash, 1 => free
-    // where 0 => head, 1 => free
     if (type == TYPE_HASH) {
         if (where == LIST_HEAD) {
             p->hash_bp = h;
@@ -213,6 +218,7 @@ void insert(struct buf_header *h, struct buf_header *p, enum list_type type, enu
 
 void print_status(unsigned int stat) {
     struct status_table *p;
+
     for (p = stat_tbl; p->stat; p++){
         if (stat & p->stat) {
             printf("%c", p->stat_char);
@@ -229,9 +235,10 @@ void print_buf(struct buf_header *p) {
 }
 
 struct buf_header *search_buf(int bufno) {
+    int i;
     struct buf_header *p;
 
-    for(int i=0;i<NHASH; i++) {
+    for(i=0;i<NHASH; i++) {
         for (p = hash_head[i].hash_fp; p != &hash_head[i]; p = p->hash_fp) {
             if (p->bufno == bufno) {
                 return p;
@@ -254,9 +261,10 @@ struct buf_header *search_hash(int blkno) {
 }
 
 void remove_all() {
+    int i;
     struct buf_header *p;
 
-    for(int i=0;i<NHASH; i++) {
+    for(i=0;i<NHASH; i++) {
         p = hash_head[i].hash_fp;
         while (p != NULL && p != &hash_head[i]) {
             struct buf_header *next_p = p->hash_fp;
