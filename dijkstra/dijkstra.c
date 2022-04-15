@@ -28,10 +28,11 @@ void do_dijkstra(int u) {
     int prev[NNODE] = {0}; // 始点から終点 v への現在の最小コスト経路上における v の一つ前のノード
     int N[NNODE] = {0}; // 最小コスト経路が最終的にわかっているノードの集合
     int Nnum = 1; // 最小コスト経路が最終的にわかっているノードの数
+    int v;
 
     // Initialization
     N[u] = 1;
-    for(int v=0;v<NNODE;v++){
+    for(v=0;v<NNODE;v++){
         if (cost[u][v] < INF) {
             mincost[v] = cost[u][v];
             prev[v] = u;
@@ -44,7 +45,7 @@ void do_dijkstra(int u) {
     while(Nnum < NNODE){
         int w = 0;
         // find w not in N such that dest is a minimum
-        for(int v=0;v<NNODE;v++){
+        for(v=0;v<NNODE;v++){
             if (N[w] != 0) {
                 w = v;
             } else {
@@ -55,7 +56,7 @@ void do_dijkstra(int u) {
         }
         N[w] = 1; // add w to N
         //update mincost for each neighbor v of w and not in N
-        for(int v=0;v<NNODE;v++){
+        for(v=0;v<NNODE;v++){
             if(N[v] == 0 && mincost[v] > mincost[w] + cost[w][v]) {
                 mincost[v] = mincost[w] + cost[w][v];
                 prev[v] = w;
@@ -67,8 +68,10 @@ void do_dijkstra(int u) {
 }
 
 void printMinimumCost(int u, int d[NNODE], int p[NNODE]) {
+    int v;
+
     printf("root node %c:\n  ", 'A'+u);
-    for(int v=0;v<NNODE;v++){
+    for(v=0;v<NNODE;v++){
         if (v>0){
             printf(" ");    
         }
