@@ -147,7 +147,12 @@ int getblk_cmd(int blkno)
 
 int brelse_cmd(int blkno)
 {
-    return do_brelse(search_hash(blkno));
+    struct buf_header *p = search_hash(blkno);
+    if (p) {
+        return do_brelse(search_hash(blkno));
+    }
+    fprintf(stderr, "blkno %d not found\n", blkno);
+    return -1;
 }
 
 /* utility */
@@ -191,7 +196,7 @@ int do_set(int blkno, char stat_char, int set)
         }
         fprintf(stderr, "stat %c is invalid\n", stat_char);
     } else {
-        fprintf(stderr, "bufno %d not found\n", blkno);
+        fprintf(stderr, "blkno %d not found\n", blkno);
     }
     return -1;
 }

@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "getargs.h"
+#include "string_utils.h"
 #include "buffer.h"
 #define LINE_LENGTH 16
 #define COMMAND_SIZE 16
@@ -29,6 +29,20 @@ cmd_tbl[] = {
     {"quit", quit_proc},
     {NULL, NULL}
 };
+
+/**
+ * @fn
+ * malloc した argv のメモリを解放する関数。
+ * コマンド実行後に必ず呼び出すようにする。
+ */
+void free_argv(int argc, char *argv[])
+{
+    int i;
+    
+    for (i = 0; i < argc; i++) {
+        free(argv[i]);
+    }
+}
 
 void help_proc(int argc, char *argv[])
 {
@@ -71,15 +85,6 @@ void help_proc(int argc, char *argv[])
     }
 }
 
-void free_argv(int argc, char *argv[])
-{
-    int i;
-
-    for (i = 0; i < argc; i++) {
-        free(argv[i]);
-    }
-}
-
 void init_proc(int argc, char *argv[])
 {
     if (argc > 1) {
@@ -95,7 +100,11 @@ void buf_proc(int argc, char *argv[])
 
     if (argc >= 2) {
         for (i=1;i<argc;i++){
-            buf1_cmd(atoi(argv[i]));
+            if (is_str_numeric(argv[i])) {
+                buf1_cmd(atoi(argv[i]));
+            } else {
+                fprintf(stderr, "%s is invalid\n", argv[i]);
+            }
         }
     } else {
         buf_cmd();
@@ -104,10 +113,16 @@ void buf_proc(int argc, char *argv[])
 
 void hash_proc(int argc, char *argv[])
 {
-    if (argc > 3) {
-        fprintf(stderr, "%s: too many arguments\n", argv[0]);
-    } else if (argc == 2) {
-        hash1_cmd(atoi(argv[1]));
+    int i;
+
+    if (argc >= 2) {
+        for (i=1;i<argc;i++){
+            if (strlen(argv[i]) == 1 && '0' <= argv[i][0] && argv[i][0] < '0' + NHASH) {
+                hash1_cmd(atoi(argv[i]));
+            } else {
+                fprintf(stderr, "%s is invalid\n", argv[i]);
+            }
+        }
     } else {
         hash_cmd();
     }
@@ -127,7 +142,11 @@ void getblk_proc(int argc, char *argv[])
     if (argc > 3) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else if (argc == 2) {
-        getblk_cmd(atoi(argv[1]));
+        if (is_str_numeric(argv[1])) {
+            getblk_cmd(atoi(argv[1]));
+        } else {
+            fprintf(stderr, "%s is invalid\n", argv[1]);
+        }
     } else {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     }
@@ -138,7 +157,11 @@ void brelse_proc(int argc, char *argv[])
     if (argc > 3) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else if (argc == 2) {
-        brelse_cmd(atoi(argv[1]));
+        if (is_str_numeric(argv[1])) {
+            brelse_cmd(atoi(argv[1]));
+        } else {
+            fprintf(stderr, "%s is invalid\n", argv[1]);
+        }
     } else {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     }
@@ -146,19 +169,43 @@ void brelse_proc(int argc, char *argv[])
 
 void set_proc(int argc, char *argv[])
 {
+    int i;
+
     if (argc < 3) {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     } else {
-        set_cmd(atoi(argv[1]), argv[2][0]);
+        if (is_str_numeric(argv[1])) {
+            for (i = 2; i < argc; i++) {
+                if (strlen(argv[i]) == 1) {
+                    set_cmd(atoi(argv[1]), argv[i][0]);
+                } else {
+                    fprintf(stderr, "%s is invalid\n", argv[i]);
+                }
+            }
+        } else {
+            fprintf(stderr, "%s is invalid\n", argv[1]);
+        }
     }
 }
 
 void reset_proc(int argc, char *argv[])
 {
+    int i;
+
     if (argc < 3) {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     } else {
-        reset_cmd(atoi(argv[1]), argv[2][0]);
+        if (is_str_numeric(argv[1])) {
+            for (i = 2; i < argc; i++) {
+                if (strlen(argv[i]) == 1) {
+                    reset_cmd(atoi(argv[1]), argv[i][0]);
+                } else {
+                    fprintf(stderr, "%s is invalid\n", argv[i]);
+                }
+            }
+        } else {
+            fprintf(stderr, "%s is invalid\n", argv[1]);
+        }
     }
 }
 
