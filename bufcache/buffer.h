@@ -1,4 +1,5 @@
 // 61911650 高野遥斗
+
 #ifndef BUFFER_H
 # define BUFFER_H
 

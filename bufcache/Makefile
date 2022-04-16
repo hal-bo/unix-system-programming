@@ -1,3 +1,5 @@
+# 61911650 高野遥斗
+
 NAME = bufcache
 SRCS = main.c getargs.c buffer.c
 OBJS = ${SRCS:.c=.o}

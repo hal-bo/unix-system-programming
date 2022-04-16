@@ -1,4 +1,5 @@
 // 61911650 高野遥斗
+
 #include <stdio.h>
 #include <string.h>
 #include "getargs.h"

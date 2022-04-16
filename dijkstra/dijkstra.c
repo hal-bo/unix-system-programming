@@ -1,4 +1,5 @@
 // 61911650 高野遥斗
+
 #define NNODE 6
 #define INF 100 // infinity
 #include <stdio.h>

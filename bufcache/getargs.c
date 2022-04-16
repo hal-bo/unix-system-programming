@@ -1,3 +1,5 @@
+// 61911650 高野遥斗
+
 # include "getargs.h"
 char *next(char *str)
 {

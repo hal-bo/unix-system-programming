@@ -1,3 +1,5 @@
+# 61911650 高野遥斗
+
 NAME = dijkstra
 SRCS = dijkstra.c
 OBJS = ${SRCS:.c=.o}

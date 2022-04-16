@@ -229,9 +229,11 @@ void print_status(unsigned int stat) {
 }
 
 void print_buf(struct buf_header *p) {
-    printf("[%2d:%3d ", p->bufno, p->blkno);
-    print_status(p->stat);
-    printf("]");   
+    if (p) {
+        printf("[%2d:%3d ", p->bufno, p->blkno);
+        print_status(p->stat);
+        printf("]");   
+    }
 }
 
 struct buf_header *search_buf(int bufno) {
@@ -318,7 +320,7 @@ struct buf_header *getblk(int blkno) {
             if (p == &free_head) {
                 /* シナリオ 4 */
                 //sleep()
-                set_status(p, STAT_WAITED, SET);
+                set_status(p, STAT_WAITED, SET); // ヘッドをWAITEDにする
                 printf("Process goes to sleep");
                 return NULL; // continue;
             }
@@ -362,7 +364,7 @@ void brelse(struct buf_header *p){
     // raise_cpu_level();
     // raise processor execution level to block interrupts;
 
-    if ((p->stat & STAT_VALID) && ~(p->stat & STAT_OLD)) {
+    if (((p->stat & STAT_VALID) | (p->stat & STAT_OLD)) == STAT_VALID) {
         insert(&free_head, p, TYPE_FREE, LIST_TAIL);
     } else {
         // シナリオ 3
