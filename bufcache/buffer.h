@@ -15,6 +15,8 @@
 # define STAT_WAITED 0x00010000
 # define STAT_OLD    0x00100000
 
+# define hash(n) n%NHASH
+
 struct buf_header {
     int bufno;
     int blkno;
@@ -41,24 +43,25 @@ enum set_type{
 
 /* cmd */
 
-void init_cmd();
-void buf_cmd();
-void buf1_cmd(int bufno);
-void hash_cmd();
-void hash1_cmd(int n);
-void free_cmd();
-void set_cmd(int blkno, char stat_char);
-void reset_cmd(int blkno, char stat_char);
+int init_cmd();
+int buf_cmd();
+int buf1_cmd(int bufno);
+int hash_cmd();
+int hash1_cmd(int n);
+int free_cmd();
+int set_cmd(int blkno, char stat_char);
+int reset_cmd(int blkno, char stat_char);
+int getblk_cmd(int blkno);
+int brelse_cmd(int blkno);
 void quit_cmd();
-void getblk_cmd(int blkno);
-void brelse_cmd(int blkno);
 
 /* utility */
 
 struct buf_header *buf_create(int blkno);
 void auto_init();
-int hash(int n);
-void do_set(int blkno, char stat_char, int set);
+int do_set(int blkno, char stat_char, int set);
+struct buf_header *do_getblk(int blkno);
+int do_brelse(struct buf_header *p);
 void set_status(struct buf_header *p, unsigned int stat, enum set_type set);
 void insert(struct buf_header *h, struct buf_header *p, enum list_type type, enum list_where where);
 void print_status(unsigned int stat);
@@ -69,6 +72,4 @@ void remove_all();
 void remove_buf(struct buf_header *p);
 void remove_from_hash(struct buf_header *p);
 void remove_from_free(struct buf_header *p);
-struct buf_header *getblk(int blkno);
-void brelse(struct buf_header *p);
 #endif

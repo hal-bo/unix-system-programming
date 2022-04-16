@@ -11,6 +11,7 @@ void help_proc(int, char *[]), init_proc(int, char *[]), buf_proc(int, char *[])
 void hash_proc(int, char *[]), free_proc(int, char *[]), getblk_proc(int, char *[]);
 void brelse_proc(int, char *[]), set_proc(int, char *[]), reset_proc(int, char *[]);
 void quit_proc(int, char *[]);
+
 struct command_table {
     char *cmd;
     void (*func)(int, char *[]);
@@ -29,7 +30,8 @@ cmd_tbl[] = {
     {NULL, NULL}
 };
 
-void help_proc(int argc, char *argv[]){
+void help_proc(int argc, char *argv[])
+{
     if (argc > 1) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else {
@@ -69,15 +71,17 @@ void help_proc(int argc, char *argv[]){
     }
 }
 
-void free_argv(int argc, char *argv[]) {
+void free_argv(int argc, char *argv[])
+{
     int i;
 
-    for (i=0; i<argc; i++) {
+    for (i = 0; i < argc; i++) {
         free(argv[i]);
     }
 }
 
-void init_proc(int argc, char *argv[]){
+void init_proc(int argc, char *argv[])
+{
     if (argc > 1) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else {
@@ -85,20 +89,21 @@ void init_proc(int argc, char *argv[]){
     }
 }
 
-void buf_proc(int argc, char *argv[]){
+void buf_proc(int argc, char *argv[])
+{
     int i;
 
     if (argc >= 2) {
-        for (i=0;i<argc;i++){
-
+        for (i=1;i<argc;i++){
+            buf1_cmd(atoi(argv[i]));
         }
-        buf1_cmd(atoi(argv[1]));
     } else {
         buf_cmd();
     }
 }
 
-void hash_proc(int argc, char *argv[]){
+void hash_proc(int argc, char *argv[])
+{
     if (argc > 3) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else if (argc == 2) {
@@ -108,7 +113,8 @@ void hash_proc(int argc, char *argv[]){
     }
 }
 
-void free_proc(int argc, char *argv[]){
+void free_proc(int argc, char *argv[])
+{
     if (argc > 1) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else {
@@ -116,7 +122,8 @@ void free_proc(int argc, char *argv[]){
     }
 }
 
-void getblk_proc(int argc, char *argv[]){
+void getblk_proc(int argc, char *argv[])
+{
     if (argc > 3) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else if (argc == 2) {
@@ -126,7 +133,8 @@ void getblk_proc(int argc, char *argv[]){
     }
 }
 
-void brelse_proc(int argc, char *argv[]){
+void brelse_proc(int argc, char *argv[])
+{
     if (argc > 3) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else if (argc == 2) {
@@ -136,7 +144,8 @@ void brelse_proc(int argc, char *argv[]){
     }
 }
 
-void set_proc(int argc, char *argv[]){
+void set_proc(int argc, char *argv[])
+{
     if (argc < 3) {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     } else {
@@ -144,7 +153,8 @@ void set_proc(int argc, char *argv[]){
     }
 }
 
-void reset_proc(int argc, char *argv[]){
+void reset_proc(int argc, char *argv[])
+{
     if (argc < 3) {
         fprintf(stderr, "%s: few arguments\n", argv[0]);
     } else {
@@ -152,7 +162,8 @@ void reset_proc(int argc, char *argv[]){
     }
 }
 
-void quit_proc(int argc, char *argv[]){
+void quit_proc(int argc, char *argv[])
+{
     if (argc > 1) {
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
     } else {
@@ -160,7 +171,8 @@ void quit_proc(int argc, char *argv[]){
     }
 }
 
-void commandline(int *argc, char *argv[]) {
+void commandline(int *argc, char *argv[])
+{
     char lbuf[LINE_LENGTH];
 
     printf("$ ");
@@ -170,7 +182,8 @@ void commandline(int *argc, char *argv[]) {
     getargs(lbuf, argc, argv);
 }
 
-int main() {
+int main()
+{
     struct command_table *p;
     int ac;
     char *av[COMMAND_SIZE];
@@ -179,7 +192,7 @@ int main() {
     while (1) {
         commandline(&ac, av);
         if (av[0]) {
-            for (p = cmd_tbl; p->cmd; p++){
+            for (p = cmd_tbl; p->cmd; p++) {
                 if (strcmp(av[0], p->cmd) == 0) {
                     (*p->func)(ac, av);
                     break;
