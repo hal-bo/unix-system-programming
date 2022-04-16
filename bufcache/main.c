@@ -4,8 +4,8 @@
 #include <string.h>
 #include "string_utils.h"
 #include "buffer.h"
-#define LINE_LENGTH 16
-#define COMMAND_SIZE 16
+#define LINE_LENGTH 256
+#define COMMAND_SIZE 256
 
 void help_proc(int, char *[]), init_proc(int, char *[]), buf_proc(int, char *[]);
 void hash_proc(int, char *[]), free_proc(int, char *[]), getblk_proc(int, char *[]);
