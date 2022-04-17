@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dirs=("dijkstra" "bufcache")
+dirs=("dijkstra" "bufcache" "mysh")
 
 for dir in ${dirs[@]}
 do

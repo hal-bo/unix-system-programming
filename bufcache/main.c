@@ -41,6 +41,7 @@ void free_argv(int argc, char *argv[])
     
     for (i = 0; i < argc; i++) {
         free(argv[i]);
+        argv[i] = NULL;
     }
 }
 
