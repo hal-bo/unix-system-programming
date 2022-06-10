@@ -59,7 +59,7 @@ void quit_cmd();
 
 struct buf_header *buf_create(int blkno);
 void auto_init();
-int do_set(int blkno, char stat_char, int set);
+int do_set(int blkno, char stat_char, enum set_type type);
 struct buf_header *do_getblk(int blkno);
 int do_brelse(struct buf_header *p);
 void set_status(struct buf_header *p, unsigned int stat, enum set_type set);

@@ -181,16 +181,27 @@ void auto_init()
     free_head.free_bp = &free_head;
 }
 
-int do_set(int blkno, char stat_char, int set)
+int do_set(int blkno, char stat_char, enum set_type type)
 {
     struct buf_header *bp;
     struct status_table *sp;
 
     bp = search_hash(blkno);
     if (bp) {
+
+        /* L 操作時にフリーリストの整合性を担保する場合
+        if (stat_char == 'L') {
+            if (!(bp->stat & STAT_LOCKED) && type == SET) {
+                remove_from_free(bp);
+                return 0;
+            } else if ((bp->stat & STAT_LOCKED) && type == RESET) {
+                insert(&free_head, bp, TYPE_FREE, LIST_TAIL);
+                return 0;
+            }
+        } */
         for (sp = stat_tbl; sp->stat; sp++) {
             if (stat_char == sp->stat_char) {
-                set_status(bp, sp->stat, set);
+                set_status(bp, sp->stat, type);
                 return 0;
             }
         }
@@ -379,26 +390,31 @@ struct buf_header *do_getblk(int blkno)
         if ((p = search_hash(blkno))) {
             if (p->stat & STAT_LOCKED) {
                 /* シナリオ 5 */
+                printf("scenario 5\n");
                 // sleep()
                 set_status(p, STAT_WAITED, SET);
-                printf("Process goes to sleep");
+                // free? not waited?
+                printf("Process goes to sleep\n");
                 return NULL; //continue;
             }
             /* シナリオ 1 */
+            printf("scenario 1\n");
             remove_from_free(p);
             return p;
         } else {
             p = free_head.free_fp;
             if (p == &free_head) {
                 /* シナリオ 4 */
+                printf("scenario 4\n");
                 //sleep()
                 set_status(p, STAT_WAITED, SET); // ヘッドをWAITEDにする
-                printf("Process goes to sleep");
+                printf("Process goes to sleep\n");
                 return NULL; // continue;
             }
             remove_from_free(p);
             if (p->stat & STAT_DWR) {
                 /* シナリオ 3 */
+                printf("scenario 3\n");
                 set_status(p, STAT_DWR, RESET);
                 set_status(p, STAT_KRDWR, SET);
                 set_status(p, STAT_OLD, SET);
@@ -408,17 +424,27 @@ struct buf_header *do_getblk(int blkno)
             }
             
             /* シナリオ 2 */
+            printf("scenario 2\n");
             move_hash(p, blkno);
-            set_status(p, STAT_KRDWR, SET);
+            set_status(p, STAT_VALID, RESET);
             // データ読み込み
-            set_status(p, STAT_KRDWR, RESET);
-            set_status(p, STAT_VALID, SET);
+
+            // set_status(p, STAT_KRDWR, SET);
+            // set_status(p, STAT_VALID, SET);
             return p;
         }
     }
 }
 int do_brelse(struct buf_header *p)
 {
+    if (!p) {
+        fprintf(stderr, "null error");
+        return -1;
+    }
+    if ((p->stat & STAT_LOCKED) != STAT_LOCKED) {
+        fprintf(stderr, "the buffer of blkno %d is already released\n", p->blkno);
+        return -1;
+    }
     if (p->stat & STAT_WAITED) {
         // シナリオ 5
         // wakeup();

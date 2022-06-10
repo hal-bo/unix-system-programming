@@ -237,6 +237,7 @@ int main()
     char *av[COMMAND_SIZE];
 
     auto_init();
+    init_cmd();
     while (1) {
         commandline(&ac, av);
         if (av[0]) {
