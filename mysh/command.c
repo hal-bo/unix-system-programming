@@ -111,7 +111,8 @@ void print_command(struct command *cmd)
 int proc_count(struct command *cmd)
 {
     int i = 0;
-    for (struct command *c = cmd; is_valid_command(c) && c->argc > 0; c = c->next_command) {
+    struct command *c;
+    for (c = cmd; is_valid_command(c) && c->argc > 0; c = c->next_command) {
         i++;
     }
     return i;
@@ -133,10 +134,11 @@ struct command *create_empty_command()
 
 void free_command(struct command *cmd)
 {
+    int i;
     struct command *next_cmd;
     while (is_valid_command(cmd)) {
         next_cmd = cmd->next_command;
-        for (int i=0;i<cmd->argc+1;i++) {
+        for (i=0;i<cmd->argc+1;i++) {
             if (cmd->argv[i] != NULL) {
                 free(cmd->argv[i]);
                 cmd->argv[i] = NULL;
