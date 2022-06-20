@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <sys/wait.h> 
 #define BUF_SIZE 256
 
 extern char **environ;

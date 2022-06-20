@@ -165,7 +165,7 @@ void exec_command(struct command *cmd)
             i++;
         }
         if (cmd->background == 0) {
-            for (struct command *c = cmd; is_valid_command(c);c = c->next_command) {
+            for (c = cmd; is_valid_command(c);c = c->next_command) {
                 wait(&status);
             }
         }
