@@ -1,7 +1,7 @@
 # 61911650 高野遥斗
 
 NAME = mysh
-SRCS = main.c string_utils.c
+SRCS = main.c command.c builtin_cmd.c exec_command.c
 OBJS = ${SRCS:.c=.o}
 HEADERS = .
 RM = rm -f
