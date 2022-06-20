@@ -1,0 +1,22 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/atsushi/mypractice/unix_system_programming/3-mysh-temp'
+mkdir -p ./build
+gcc  -I ./include  -o build/main.o -c src/main.c
+mkdir -p ./build
+gcc  -I ./include  -o build/my_buildin_cmd.o -c src/my_buildin_cmd.c
+mkdir -p ./build
+gcc  -I ./include  -o build/submain.o -c src/submain.c
+mkdir -p ./build
+gcc  -I ./include  -o build/pipe.o -c src/pipe.c
+mkdir -p ./build
+gcc  -I ./include  -o build/redirect.o -c src/redirect.c
+mkdir -p ./build
+gcc  -I ./include  -o build/my_execve.o -c src/my_execve.c
+ 
+mkdir -p ./build
+gcc  -I ./include  -o build/my_ampersand.o -c src/my_ampersand.c
+mkdir -p ./build
+gcc  -I ./include  -o build/signal_handler.o -c src/signal_handler.c
+gcc  -o ./mysh build/main.o build/my_buildin_cmd.o build/submain.o build/pipe.o build/redirect.o build/my_execve.o build/my_ampersand.o build/signal_handler.o -lm
+make: Leaving directory `/Users/atsushi/mypractice/unix_system_programming/3-mysh-temp'
+ 

@@ -135,7 +135,8 @@ void exec_command(struct command *cmd)
             wait(&status);
         }
     } else if (pc > 1) {
-        for (struct command *c = cmd; is_valid_command(c);c = c->next_command) {
+        struct command *c;
+        for (c = cmd; is_valid_command(c);c = c->next_command) {
             if (i != pc - 1) {
                 pipe(pfd[i]);
             }

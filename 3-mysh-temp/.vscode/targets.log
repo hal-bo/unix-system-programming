@@ -1,0 +1,571 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Sun Jun 19 12:37:31 2022
+
+# Variables
+
+ 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+VSCODE_LOG_NATIVE = false
+# makefile (from `Makefile', line 17)
+TARGET = ./mysh
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from `Makefile', line 4)
+CPPFLAGS = $(INCLUDE)
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/atsushi/mypractice/unix_system_programming/3-mysh-temp
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"ja","availableLanguages":{"*":"ja"},"_languagePackId":"f5b8523d60216379ef9ba6dc243eb093.ja","_translationsConfigFile":"/Users/atsushi/Library/Application Support/Code/clp/f5b8523d60216379ef9ba6dc243eb093.ja/tcf.json","_cacheRoot":"/Users/atsushi/Library/Application Support/Code/clp/f5b8523d60216379ef9ba6dc243eb093.ja","_resolvedLanguagePackCoreLocation":"/Users/atsushi/Library/Application Support/Code/clp/f5b8523d60216379ef9ba6dc243eb093.ja/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5","_corruptedFile":"/Users/atsushi/Library/Application Support/Code/clp/f5b8523d60216379ef9ba6dc243eb093.ja/corrupted.info","_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 6)
+CFLAGS = 
+# environment
+STARSHIP_SESSION_KEY = 1140081681732635
+# makefile (from `Makefile', line 11)
+TARGDIR = .
+# makefile (from `Makefile', line 12)
+SRCDIRS = ./src
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+__CFBundleIdentifier = com.microsoft.VSCode
+# environment
+INFOPATH = /opt/homebrew/share/info:
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/2p/21bp1j4s3zgdy3qj_8twdbsc0000gn/T/vscode-ipc-b836a30b-b2a7-4ad7-b380-78ec486e4727.sock
+# environment
+VSCODE_CWD = /Users/atsushi/mypractice/unix_system_programming/3-mysh-temp
+# environment
+PATH = /Users/atsushi/.rbenv/shims:/Users/atsushi/.rbenv/bin:/usr/local/bin:/Library/TeX/texbin:/Users/atsushi/bin:/Users/atsushi/tools:/Users/atsushi/.local/share/zinit/polaris/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `Makefile', line 5)
+LDFLAGS = -lm
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.ez4nEDl6O7/Listeners
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = /private/tmp/com.apple.launchd.uuvaThvCry/org.xquartz:0
+# environment
+VSCODE_PIPE_LOGGING = true
+# makefile (from `Makefile', line 19)
+OBJS = ./build/main.o ./build/my_buildin_cmd.o ./build/submain.o ./build/pipe.o ./build/redirect.o ./build/my_execve.o ./build/my_ampersand.o ./build/signal_handler.o
+# environment
+PWD = /Users/atsushi/mypractice/unix_system_programming/3-mysh-temp
+# environment
+HOMEBREW_CELLAR = /opt/homebrew/Cellar
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+MANPATH = /opt/homebrew/share/man::
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /Users/atsushi
+# default
+MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+# environment
+VSCODE_CLI = 1
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/atsushi/Library/Application Support/Code/CachedData/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5
+# environment
+LOGNAME = atsushi
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# environment
+COLORTERM = truecolor
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+LC_TERMINAL = iTerm2
+# makefile (from `Makefile', line 18)
+SRCS = ./src/main.c ./src/my_buildin_cmd.c ./src/submain.c ./src/pipe.c ./src/redirect.c ./src/my_execve.c ./src/my_ampersand.c ./src/signal_handler.c
+# environment
+SHLVL = 3
+# makefile (from `Makefile', line 2)
+CC = gcc 
+# makefile (from `Makefile', line 10)
+TARGETNAME = mysh
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = atsushi
+# makefile
+.DEFAULT_GOAL := all
+# makefile (from `Makefile', line 20)
+INCLUDE = -I ./include
+# default
+MAKECMDGOALS := all
+# environment
+TERM_SESSION_ID = w0t0p1:746AF062-DEF2-4FE0-BFE0-CC04FDBB5796
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from `Makefile', line 14)
+INCDIRS = ./include 
+# default
+MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+# environment
+ZPFX = /Users/atsushi/.local/share/zinit/polaris
+# environment
+ZSH_CACHE_DIR = /Users/atsushi/.cache/zinit
+# environment
+TERM_PROGRAM = iTerm.app
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/2p/21bp1j4s3zgdy3qj_8twdbsc0000gn/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/atsushi/Library/Application Support/Code/1.67.2-main.sock
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+TERM_PROGRAM_VERSION = 3.4.15
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.6639620.6639626.158F190D-51CE-4433-83D0-D87869CD335F
+# environment
+LC_TERMINAL_VERSION = 3.4.15
+# environment
+HOMEBREW_PREFIX = /opt/homebrew
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+ITERM_SESSION_ID = w0t0p1:746AF062-DEF2-4FE0-BFE0-CC04FDBB5796
+# environment
+HOMEBREW_REPOSITORY = /opt/homebrew
+# environment
+COLORFGBG = 15;0
+# environment
+PMSPEC = 0uUpiPsf
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F5:0x1:0xE
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
+# environment
+RBENV_SHELL = zsh
+# automatic
+<F = $(notdir $<)
+# environment
+ITERM_PROFILE = u
+# makefile (from `Makefile', line 13)
+OBJDIR = ./build
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# makefile (from `Makefile', line 21)
+DEPS = $(OBJS:.o=.d)
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# environment
+VSCODE_PID = 1498
+# environment
+STARSHIP_SHELL = zsh
+# variable set hash-table stats:
+# Load=100/1024=10%, Rehash=0, Collisions=17/131=13%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777234, inode 7115785): 16 files, no impossibilities.
+# ./src (device 16777234, inode 7115802): 10 files, no impossibilities so far.
+# src (device 16777234, inode 7115802): 10 files, no impossibilities so far.
+
+# 36 files, no impossibilities in 3 directories.
+
+# Implicit Rules
+
+build/%.o: ./src/%.c
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+build/pipe.o: src/pipe.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `pipe'
+#  Last modified 2022-06-18 17:25:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+build/main.o: src/main.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `main'
+#  Last modified 2022-06-18 17:25:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+all: mysh
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+.PHONY: all clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+build/submain.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+ 
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+build/my_execve.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-17 14:49:36
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+mysh: build/main.o build/my_buildin_cmd.o build/submain.o build/pipe.o build/redirect.o build/my_execve.o build/my_ampersand.o build/signal_handler.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-06-18 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 34):
+	$(CC) -o $(TARGDIR)/$@ $^ $(LDFLAGS)
+	
+
+# Not a target:
+src/my_ampersand.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 13:48:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/my_buildin_cmd.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 16:29:15
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/redirect.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 13:47:45
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/pipe.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 16:27:35
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+build/submain.o: src/submain.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `submain'
+#  Last modified 2022-06-18 17:25:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+build/my_execve.o: src/my_execve.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `my_execve'
+#  Last modified 2022-06-18 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+# Not a target:
+src/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 17:13:38
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/signal_handler.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 17:25:15
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+build/signal_handler.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+build/my_ampersand.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+build/my_buildin_cmd.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 42):
+	$(RM) $(TARGET) $(OBJS) $(DEPS)
+	
+
+# Not a target:
+build/redirect.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+build/pipe.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+build/main.d:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+build/my_ampersand.o: src/my_ampersand.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `my_ampersand'
+#  Last modified 2022-06-18 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+build/signal_handler.o: src/signal_handler.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `signal_handler'
+#  Last modified 2022-06-18 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+build/my_buildin_cmd.o: src/my_buildin_cmd.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `my_buildin_cmd'
+#  Last modified 2022-06-18 17:25:23
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+# Not a target:
+src/submain.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 14:14:33
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/my_execve.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-18 16:40:28
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+build/redirect.o: src/redirect.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `redirect'
+#  Last modified 2022-06-18 17:25:24
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `Makefile', line 38):
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	
+
+# files hash-table stats:
+# Load=31/1024=3%, Rehash=0, Collisions=7/87=8%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 9
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 3943 / max = 3943 / min = 3943 / avg = 3943
+
+# Finished Make data base on Sun Jun 19 12:37:31 2022
+
+ 

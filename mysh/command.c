@@ -78,9 +78,11 @@ struct command *getcommand()
 
 void print_command(struct command *cmd)
 {
-    for (struct command *c = cmd; is_valid_command(c); c = c->next_command) {
+    int i;
+    struct command *c;
+    for (c = cmd; is_valid_command(c); c = c->next_command) {
         printf("* command *\n");
-        for (int i=0;i<c->argc;i++){
+        for (i=0;i<c->argc;i++){
             printf("%s ", c->argv[i]);
         }
         printf("\n");
