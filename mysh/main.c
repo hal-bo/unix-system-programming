@@ -25,7 +25,7 @@ int main()
     while (1) {
         printf("$ ");
         struct command *cmd = getcommand();
-        print_command(cmd);
+        //print_command(cmd);
         // printf("--------------------\n");
         exec_command(cmd);
         //printf("--------------------\n");
