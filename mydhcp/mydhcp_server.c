@@ -34,6 +34,7 @@ struct proctable_server ptab_server[] = {
 int main()
 {
     struct proctable_server *pt;
+    struct sockaddr_in skt;
     struct sockaddr_in myskt;
     struct client *client_list;
     struct event_table et;
@@ -42,11 +43,14 @@ int main()
     client_list->num = 1;
 
     int fd;
-
     if ((fd = socket(AF_INET, SOCK_DGRAM, SOCKET_PROTOCOL)) < 0) {
         perror("socket");
         exit(1);
     }
+    memset(&skt, 0, sizeof(skt));
+    skt.sin_family = AF_INET;
+    skt.sin_port = htons(CLIENT_PORT);
+    skt.sin_addr.s_addr = htonl(INADDR_ANY);
     memset(&myskt, 0, sizeof(myskt));
     myskt.sin_family = AF_INET;
     myskt.sin_port = htons(SERVER_PORT);
@@ -57,12 +61,25 @@ int main()
         exit(1);
     }
 
+    socklen_t sktlen = sizeof(struct sockaddr);
+    write(1, "main wait\n", 10);
+    struct mydhcp_message message;
+    int count;
+    if ((count = recvfrom(fd, &message, sizeof(message), RECVFROM_FLAG, (struct sockaddr *)&skt, &sktlen)) < 0) {
+        perror("recvfrom");
+        exit(1);
+    }
+    write(1, "receive", 8);
+    print_message(message);
+    close(fd);
+    exit(0);
+
     for (;;) {
         et = wait_server_event(client_list, fd, &myskt);
         for (pt = ptab_server; pt->status; pt++) {
             if (pt->status == et.client->status &&
                 pt->event == et.event) {
-                    (*pt->func)(et.client, fd, &myskt);
+                    (*pt->func)(et.client, fd, &skt);
                     break;
                 }
         }

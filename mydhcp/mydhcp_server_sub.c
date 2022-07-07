@@ -50,16 +50,17 @@ void set_server_status(struct client *c, int new_status)
     printf(" ]\n\n");
 }
 
-struct event_table wait_server_event(struct client *client_list, int fd, struct sockaddr_in *myskt)
+struct event_table wait_server_event(struct client *client_list, int fd, struct sockaddr_in *skt)
 {
     int count;
     struct mydhcp_message message;
     socklen_t sktlen = sizeof(struct sockaddr);
-    if ((count = recvfrom(fd, &message, sizeof(message), RECVFROM_FLAG, (struct sockaddr *)myskt, &sktlen)) < 0) {
+    write(1, "wait", 5);
+    if ((count = recvfrom(fd, &message, sizeof(message), RECVFROM_FLAG, (struct sockaddr *)skt, &sktlen)) < 0) {
         perror("recvfrom");
         exit(1);
     }
-    printf("recvfrom\n");
+    write(1, "receive", 8);
     print_message(message);
     close(fd);
     exit(0);

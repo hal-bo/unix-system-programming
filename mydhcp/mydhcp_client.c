@@ -14,7 +14,7 @@ int main()
     int status = CLIENT_STATE_INIT;
 
     struct sockaddr_in skt;
-    struct sockaddr_in myskt;
+    //struct sockaddr_in myskt;
     int fd;
 
     if ((fd = socket(AF_INET, SOCK_DGRAM, SOCKET_PROTOCOL)) < 0) {
@@ -24,16 +24,16 @@ int main()
     memset(&skt, 0, sizeof(skt));
     skt.sin_family = AF_INET;
     skt.sin_port = htons(SERVER_PORT);
-    skt.sin_addr.s_addr = inet_addr("192.168.1.51");
-    memset(&myskt, 0, sizeof(myskt));
-    myskt.sin_family = AF_INET;
-    myskt.sin_port = htons(CLIENT_PORT);
-    myskt.sin_addr.s_addr = htonl(INADDR_ANY);
+    skt.sin_addr.s_addr = inet_addr("127.0.0.1");
+    // memset(&myskt, 0, sizeof(myskt));
+    // myskt.sin_family = AF_INET;
+    // myskt.sin_port = htons(CLIENT_PORT);
+    // myskt.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if (bind(fd, (struct sockaddr *)&skt, sizeof(skt)) < 0) {
-        perror("bind");
-        exit(1);
-    }
+    // if (bind(fd, (struct sockaddr *)&myskt, sizeof(myskt)) < 0) {
+    //     perror("bind");
+    //     exit(1);
+    // }
 
     for (;;) {
         event = wait_client_event(status);
