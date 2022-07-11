@@ -314,6 +314,7 @@ struct event_table wait_server_event()
     FD_SET(STDOUT_FILENO, &rdfds);
     FD_SET(sock_fd, &rdfds);
 
+    et.event = PASS_EVENT;
     ret_val = select(sock_fd+1, &rdfds, NULL, NULL, NULL);
     if (ret_val < 0) {
         if (errno == EINTR) {
@@ -364,7 +365,8 @@ struct client *search_client(struct sockaddr_in *skt)
 
     head = client_list_head;
     for (cp = head->fp;cp != head;cp = cp->fp) {
-        if (inet_ntoa(skt->sin_addr) == inet_ntoa(cp->skt.sin_addr)) {
+        if (inet_ntoa(skt->sin_addr) == inet_ntoa(cp->skt.sin_addr)
+            && skt->sin_port ==  cp->skt.sin_port) {
             return cp;
         }
     }
@@ -430,12 +432,9 @@ int get_server_event(struct client *c, struct mydhcp_message message)
         case TYPE_REQUEST:
             if (c->assign_address.address.s_addr != message.address
                     || c->assign_address.netmask.s_addr != message.netmask) {
-                        printf("a");
                 return SERVER_EVENT_REQUEST_ERROR;
             }
             if (c->assign_address.ttl < message.ttl) {
-                printf("b[%d][%d]", c->assign_address.ttl, message.ttl);
-                
                 return SERVER_EVENT_REQUEST_ERROR;
             } else {
                 c->ttl = message.ttl;
