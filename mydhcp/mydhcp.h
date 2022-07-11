@@ -11,6 +11,7 @@
 #include <sys/select.h>
 #include <signal.h>
 #include <sys/errno.h>
+#include <sys/time.h>
 
 #ifndef MYDHCP_H
 #define MYDHCP_H
