@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     }
  
     // IPv4 TCP のソケットを作成する
-    if((sock_fd = socket(server_addr->ai_family, server_addr->ai_socktype, 0)) < 0) {
+    if((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("socket");
         return -1;
     }
@@ -32,6 +32,11 @@ int main(int argc, char** argv)
         exit(1);
     }
 
+    char output[256];
+    getnameinfo(server_addr->ai_addr, server_addr->ai_addrlen, output, sizeof(output), NULL, 0, NI_NUMERICHOST);
+    printf("\n-- server addr --\n");
+    printf("    ip       -> %s\n", output);
+    printf("-- end --\n");
     // サーバ接続（TCP の場合は、接続を確立する必要がある）
     connect(sock_fd, server_addr->ai_addr, server_addr->ai_addrlen);
  
