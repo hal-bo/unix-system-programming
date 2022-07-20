@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/hal/Documents/keio/unix-system-programming/myftp'
-gcc -Wall -Wextra -Werror -I . -c myftp_client_util.c -o myftp_client_util.o
-gcc -Wall -Wextra -Werror -I . -o myftpc myftp_client.o myftp_client_util.o
-make: Leaving directory `/Users/hal/Documents/keio/unix-system-programming/myftp'
- 

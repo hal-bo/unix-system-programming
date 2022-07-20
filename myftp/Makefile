@@ -1,17 +1,17 @@
 # 61911650 高野遥斗
 
 TARGET1 = myftpd
-SRCS1 = myftp_server.c
+SRCS1 = myftp_server.c myftp_share.c myftp_server_util.c
 OBJS1 = ${SRCS1:.c=.o}
 
 TARGET2 = myftpc
-SRCS2 = myftp_client.c myftp_client_util.c
+SRCS2 = myftp_client.c myftp_share.c myftp_client_util.c string_utils.c
 OBJS2 = ${SRCS2:.c=.o}
 
 HEADERS = .
 RM = rm -f
 CC = gcc
-CFLAG = -Wall -Wextra -Werror
+CFLAG = #-Wall -Wextra -Werror
 
 all: ${TARGET1} ${TARGET2}
 

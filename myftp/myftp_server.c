@@ -1,11 +1,28 @@
 #include "myftp.h"
 
+struct myftp_server_proc {
+    int proc;
+    void (*func)(int, struct myftph_data);
+}
+proc_tbl[] = {
+    {MYFTPH_TYPE_QUIT, server_quit_proc},
+    {MYFTPH_TYPE_PWD, server_pwd_proc},
+    {MYFTPH_TYPE_CWD, server_cd_proc},
+    {MYFTPH_TYPE_LIST, server_dir_proc},
+    {MYFTPH_TYPE_RETR, server_get_proc},
+    {MYFTPH_TYPE_STOR, server_put_proc},
+    {MYFTPH_TYPE_NULL, NULL}
+};
+
 int main(int argc, char** argv)
 {
     int sock_fd;
     int acc_fd;
     struct sockaddr_in myskt;
     struct sockaddr_in skt;
+    struct myftph_data msg;
+    int pid;
+    struct myftp_server_proc *p;
  
     socklen_t sin_size = sizeof(struct sockaddr_in);
  
@@ -41,28 +58,33 @@ int main(int argc, char** argv)
         perror("listen");
         return -1;
     }
- 
-    // クライアントからコネクト要求が来るまで停止する
-    // 以降、サーバ側は acc_fd を使ってパケットの送受信を行う
-    if((acc_fd = accept(sock_fd, (struct sockaddr *)&skt, &sin_size)) < 0) {
-        perror("accept");
-        return -1;
+
+    while (1) {
+        // クライアントからコネクト要求が来るまで停止する
+        // 以降、サーバ側は acc_fd を使ってパケットの送受信を行う
+        if((acc_fd = accept(sock_fd, (struct sockaddr *)&skt, &sin_size)) < 0) {
+            perror("accept");
+            return -1;
+        }
+        printf("connect\n");
+        if ((pid = fork()) < 0) {
+            perror("fork");
+            exit(1);
+        } else if (pid == 0) {
+            while (1) {
+                receive_packet(acc_fd, &msg);
+                for (p = proc_tbl; p->proc != MYFTPH_TYPE_NULL; p++) {
+                    if (p->proc == msg.type) {
+                        (*p->func)(acc_fd, msg);
+                        break;
+                    }
+                }
+            }
+        } else {
+            close(acc_fd);
+        }
     }
-  
-    // パケット受信。パケットが到着するまでブロック
-    if(recv(acc_fd, buf, sizeof(buf), 0) < 0) {
-        perror("recv");
-        return -1;
-    }
- 
-    // パケット送受信用ソケットのクローズ
-    close(acc_fd);
- 
-    // 接続要求待ち受け用ソケットをクローズ
+
     close(sock_fd);
- 
-    // 受信データの出力
-    printf("%s\n", buf);
- 
     return 0;
 }
