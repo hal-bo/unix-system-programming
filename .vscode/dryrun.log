@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/hal/Documents/keio/unix-system-programming'
+make: Leaving directory `/Users/hal/Documents/keio/unix-system-programming'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
